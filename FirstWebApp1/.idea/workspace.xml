@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="firstwebapp:war exploded" />
+      <artifact name="FirstWebApp1:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="764328f0-6b88-491b-a716-2860781f0720" name="Changes" comment="" />
+    <list default="true" id="764328f0-6b88-491b-a716-2860781f0720" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,19 +43,88 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.google.cloudcode.ide_session_index" value="20220404_0002" />
+    <property name="com.google.cloudcode.ide_session_index" value="20220404_0003" />
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop/yau/FirstWebApp" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Google App Engine Deployment.Google App Engine Deployment">
+  <component name="RunManager" selected="Google App Engine Standard Local Server.Google App Engine Standard Local Server">
     <configuration name="Google Cloud Debug" type="GCPDebug" factoryName="GCPDebug">
       <method v="2" />
     </configuration>
     <configuration name="Google App Engine Deployment" type="gcp-app-engine-deploy" factoryName="Google App Engine Deployment">
       <method v="2" />
+    </configuration>
+    <configuration name="Google App Engine Standard Local Server" type="gcp-app-engine-local-run" factoryName="Local" APPLICATION_SERVER_NAME="Google App Engine Standard Local Server" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <server-settings>
+        <artifact>FirstWebApp1:war exploded</artifact>
+      </server-settings>
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="62417" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+        <EnvironmentVariables>
+          <option name="NAME" value="GOOGLE_CLOUD_PROJECT" />
+          <option name="VALUE" value="applied-terrain-344017" />
+          <option name="IS_PREDEFINED" value="false" />
+        </EnvironmentVariables>
+        <EnvironmentVariables>
+          <option name="NAME" value="GOOGLE_APPLICATION_CREDENTIALS" />
+          <option name="VALUE" value="C:\ChaveProjeto\applied-terrain-344017-af9085d06b98.json" />
+          <option name="IS_PREDEFINED" value="false" />
+        </EnvironmentVariables>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="FirstWebApp1:war exploded" />
+        </option>
+      </method>
     </configuration>
     <configuration name="Deploy" type="google-app-engine-deploy" factoryName="Google App Engine Deployment" server-name="Google App Engine">
       <deployment type="artifact" name="firstwebapp:war exploded" />
@@ -63,6 +134,11 @@
         </option>
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Google App Engine Deployment.Google App Engine Deployment" />
+      <item itemvalue="Google App Engine Standard Local Server.Google App Engine Standard Local Server" />
+      <item itemvalue="Google Cloud Debugger.Google Cloud Debug" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -77,7 +153,7 @@
       <workItem from="1649031166858" duration="542000" />
       <workItem from="1649032632121" duration="499000" />
       <workItem from="1649033212736" duration="97000" />
-      <workItem from="1649099634234" duration="317000" />
+      <workItem from="1649099634234" duration="2537000" />
     </task>
     <servers />
   </component>
