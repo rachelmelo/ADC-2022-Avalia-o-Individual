@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.google.cloud.tools.eclipse.appengine.AppToolsLaunchConfigurationType">
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/FirstWebApp"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="4"/>
+    </listAttribute>
+    <mapAttribute key="org.eclipse.debug.core.environmentVariables">
+        <mapEntry key="GOOGLE_APPLICATION_CREDENTIALS" value="C:\ChaveProjeto\applied-terrain-344017-af9085d06b98"/>
+        <mapEntry key="GOOGLE_CLOUD_PROJECT" value="applied-terrain-344017"/>
+    </mapAttribute>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
+    <stringAttribute key="server-id" value="App Engine Standard at localhost"/>
+</launchConfiguration>

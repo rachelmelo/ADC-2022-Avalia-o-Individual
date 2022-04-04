@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+    <title>Hello App Engine</title>
+  </head>
+<script>
+    xmlhttp = new XMLHttpRequest();
+    let token;
+    function getData(){
+        xmlhttp.onreadystatechange = function (){
+            if(xmlhttp.readyState == 4){
+                token = xmlhttp.responseText;
+                alert(token);
+            }
+        }
+        var myObj = {   username:document.getElementById("username").value,
+            password:document.getElementById("password").value};
+        var myJson = JSON.stringify(myObj);
+
+
+        xmlhttp.open("POST", "https://applied-terrain-344017.appspot.com/rest/ti/login", true);
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(myJson);
+    }
+</script>
+
+
+<body>
+
+<p>Login</p>
+
+<br>
+<p>Login information:</p>
+<label>Username</label>
+<input type="text" id="username">
+
+<br>
+<label>Password</label>
+<input type="password" id="password">
+
+<br>
+<input type="button" value="login" onclick="getData();"/>
+  </body>
+</html>

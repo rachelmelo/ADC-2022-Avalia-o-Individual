@@ -1,0 +1,32 @@
+package pt.unl.fct.di.adc.firstwebapp.resources;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response.Status;
+
+public class Register {
+
+	public Register() {}
+	
+	@POST
+	@Path("/v1")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response doRegistrationV1(RegisterData data) {
+		LOG.fine("Attempt to register user: " + data.username);
+		
+		//Checks input data
+		if(!data.validRegistration()) {
+			return Response.status(Status.BAD_REQUEST).entity("Missing or wrong parameter.").build();
+		}
+		
+		//Creates an entity user from the data. The key is the username
+		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+		Entity user = Entity.newBuilder(userKey).set("user_pwd", DigestUtils.sha512Hex(data.password))
+				.set("user_creation_time"), Timestamp.now()).build();
+		//bad idea... put overwrites previous information that may exist
+		datastore.put(user);
+		LOG.info("User registered " + data.username);
+		
+		return Response.ok("{}").build();
+	}
+}

@@ -1,0 +1,55 @@
+package pt.unl.fct.di.adc.firstwebapp.resources;
+
+public class RegistrationData {
+
+    public String username;
+    public String password;
+    public String confirmation;
+    public String email;
+    public String name;
+    public String prof;
+    public String phone;
+    public String cell;
+    public String ad;
+    public String cad;
+    public String cp;
+    public String nif;
+
+    public RegistrationData() {
+
+    }
+
+    public RegistrationData(String username, String password, String confirmation, String email, String name, String prof, String phone, String cell, String ad, String cad, String cp, String nif) {
+        this.username = username;
+        this.password = password;
+        this.confirmation = confirmation;
+        this.email = email;
+        this.name = name;
+        this.prof = prof;
+        this.phone = phone;
+        this.cell = cell;
+        this.ad = ad;
+        this.cad = cad;
+        this.cp = cp;
+        this.nif = nif;
+    }
+    
+    public boolean validRegistration() {
+        boolean checkNull = !(username.equals("") || password.equals("") || confirmation.equals("") || email.equals("") || name.equals(""));
+        boolean checkPassword = password.equals(confirmation) && password.length()>=6;
+        boolean checkEmail = true;
+
+        String[] emailC = email.split("@");
+        if(emailC.length<2){
+            checkEmail = false;
+        }
+
+        String[] dns = emailC[1].split("\\.");
+        if(dns.length<2){
+            checkEmail = false;
+        }
+
+        return checkNull && checkPassword && checkEmail;
+    }
+    
+}
