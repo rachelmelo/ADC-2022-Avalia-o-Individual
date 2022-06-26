@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Remover Utilizador</title>
+    </head>
+
+    <body>
+        <h3>Remover Utilizador:</h3>
+        <p></p>
+
+        <label>User a remover:</label>
+        <input type="text" id="usernameToRemove">
+        <input type="button" value="Remover" onclick="removeUser();">
+        <p></p>
+    </body>
+
+    <script>
+        let token = sessionStorage.getItem('token');
+        if(token == null) {
+            window.location.href = 'index.html';
+        }
+
+        token = JSON.parse(token);
+
+        xmlhttp = new XMLHttpRequest();
+
+        function removeUser() {
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4) {
+                    if (xmlhttp.status == 200) {
+                        alert("User removido com sucesso!");
+                        window.location.href = "loggedOptions.html"
+                    } else {
+                        alert(xmlhttp.responseText);
+                    }
+                }
+            }
+            var myObj = {
+                user: token.username,
+                usernameToDelete: document.getElementById("usernameToRemove").value,
+                role: token.role,
+                validTo: token.validTo,
+                verifier: token.verifier,
+            };
+            var myJson = JSON.stringify(myObj);
+
+
+            xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/deleteUser/", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send(myJson);
+        }
+    </script>
+</html>

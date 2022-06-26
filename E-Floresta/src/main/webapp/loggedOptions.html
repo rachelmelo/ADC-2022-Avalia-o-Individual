@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Options</title>
+    </head>
+
+    <body>
+        <label><h2>Página de Boas Vindas:</h2></label>
+        <h3>Role: <span id="role"></span></h3>
+        <input type="button" value="Logout" onclick="logout();">
+        <p></p>
+
+        <label>Remover Utilizador:</label>
+        <input type="button" value="Remover" onclick="window.location.href = 'deleteUser.html'">
+        <p></p>
+
+        <label>Listar Utilizadores:</label>
+        <input type="button" value="Listar" onclick="window.location.href = 'listUsers.html'">
+        <p></p>
+
+        <label>Modificar atributos de um User:</label>
+        <input type="button" value="Modificar" onclick="window.location.href = 'modifyUser.html'">
+        <p></p>
+
+        <label>Modificar password:</label>
+        <input type="button" value="Modificar Pass" onclick="window.location.href = 'modifyPass.html'">
+        <p></p>
+
+        <label>Mostrar token:</label>
+        <input type="button" value="Mostrar" onclick="showToken();">
+        <p></p>
+
+        <label>Registar propriedade:</label>
+        <input type="button" value="Registar" onclick="window.location.href = 'registerProperty.html'">
+        <p></p>
+
+        <label>Listar propriedade:</label>
+        <input type="button" value="Listar" onclick="window.location.href = 'listProperties.html'">
+        <p></p>
+
+    </body>
+
+    <script>
+         let token = sessionStorage.getItem('token');
+         if(token == null) {
+            window.location.href = 'index.html';
+         }
+
+         let json = JSON.parse(token);
+         document.getElementById("role").innerText = json.role;
+
+         function logout() {
+            sessionStorage.removeItem('token');
+             window.location.href = 'logout.html';
+         }
+
+         function showToken() {
+             alert(sessionStorage.getItem('token'));
+         }
+    </script>
+</html>

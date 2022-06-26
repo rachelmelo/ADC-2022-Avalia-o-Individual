@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="E-Floresta" />
+        <module name="AVAL_IND_APDC_2022" />
       </profile>
     </annotationProcessing>
   </component>

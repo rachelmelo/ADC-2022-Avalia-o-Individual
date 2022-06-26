@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Modificar Utilizador</title>
+    </head>
+    <body>
+        <h3>Modificar Utilizador:</h3>
+        <p></p>
+        <label>Username:</label>
+        <input id="username" type="text">
+        <p></p>
+
+        <label>E-mail:</label>
+        <input id="email" type="email">
+        <p></p>
+
+        <label>Nome do Utilizador:</label>
+        <input id="name" type="text">
+        <p></p>
+
+        <label>Password:</label>
+        <input id="password" type="password">
+        <p></p>
+
+        <label>Tipo de Perfil:</label>
+        <input type="hidden" id="profile" value="INDEFINIDO">
+
+        <input type="radio" id="public" name="profile" onchange="document.getElementById('profile').value = 'PUBLICO'">
+        <label for="public">Público</label>
+        <input type="radio" id="private" name="profile" onchange="document.getElementById('profile').value = 'PRIVADO'">
+        <label for="private">Privado</label>
+        <p></p>
+
+        <label>Telefone fixo:</label>
+        <input id="phone" type="number" maxlength="9">
+        <p></p>
+
+        <label>Telefone móvel:</label>
+        <input id="cellphone" type="number" maxlength="9">
+        <p></p>
+
+        <label>Morada:</label>
+        <input id="address" type="text">
+        <p></p>
+
+        <label>Morada complementar:</label>
+        <input id="addressC" type="text">
+        <p></p>
+
+        <label>Localidade:</label>
+        <input id="localidade" type="text">
+        <p></p>
+
+        <label>Código Postal:</label>
+        <input id="codP1" type="text" maxlength="4"> - <input id="codP2" type="text" maxlength="3">
+        <p></p>
+
+        <label>NIF:</label>
+        <input id="nif" type="number">
+        <p></p>
+
+        <label>Atividade da conta:</label>
+        <input type="hidden" id="state" value="INDEFINIDO">
+
+        <input type="radio" id="active" name="state" onchange="document.getElementById('state').value = 'ACTIVE'">
+        <label for="active">Ativo</label>
+        <input type="radio" id="inactive" name="state" onchange="document.getElementById('state').value = 'INACTIVE'">
+        <label for="inactive">Inativo</label>
+        <p></p>
+
+        <label>Role do Utilizador:</label>
+        <input type="hidden" id="role" value="INDEFINIDO">
+
+        <input type="radio" id="user" name="role" onchange="document.getElementById('role').value = 'USER'">
+        <label for="user">USER</label>
+        <input type="radio" id="gbo" name="role" onchange="document.getElementById('role').value = 'GBO'">
+        <label for="gbo">GBO</label>
+        <input type="radio" id="gs" name="role" onchange="document.getElementById('role').value = 'GS'">
+        <label for="gs">GS</label>
+        <input type="radio" id="su" name="role" onchange="document.getElementById('role').value = 'SU'">
+        <label for="su">SU</label>
+        <p></p>
+
+        <button onclick="modifyUser();"><b>Confirmar Alterações</b></button>
+        <p></p>
+    </body>
+
+    <script>
+        let xmlhttp = new XMLHttpRequest();
+        let token;
+
+        function modifyUser() {
+            xmlhttp.onreadystatechange = function() {
+                if(xmlhttp.readyState == 4) {
+                    if(xmlhttp.status == 200){
+                        token = xmlhttp.responseText;
+                        alert("Alterado com sucesso.");
+                        sessionStorage.setItem('token', token);
+                        window.location.href = "loggedOptions.html";
+                    } else {
+                        alert(xmlhttp.responseText);
+                    }
+                }
+            }
+
+            let myObj = {
+                user: token.username,
+                role: token.role,
+                validTo: token.validTo,
+                verifier: token.verifier,
+                username:document.getElementById("username").value,
+                email:document.getElementById("email").value,
+                name:document.getElementById("name").value,
+                password:document.getElementById("password").value,
+                confirmation:document.getElementById("confPassword").value,
+                profile:document.getElementById("profile").value,
+                phone:document.getElementById("phone").value,
+                cellphone:document.getElementById("cellphone").value,
+                address:document.getElementById("address").value,
+                addressC:document.getElementById("addressC").value,
+                localidade:document.getElementById("localidade").value,
+                cp:document.getElementById("codP1").value + "-" + document.getElementById("codP2").value,
+                nif:document.getElementById("nif").value,
+                state:document.getElementById("state").value,
+                newRole:document.getElementById("role").value
+            };
+
+            let myJson = JSON.stringify(myObj);
+
+            xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/modifyUserAtributes/", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send(myJson);
+        }
+    </script>
+</html>

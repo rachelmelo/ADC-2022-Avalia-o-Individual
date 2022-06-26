@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="UTF-8">
+        <title>Registar utilizador</title>
+    </head>
+
+
+    <script>
+        let xmlhttp = new XMLHttpRequest();
+        let token;
+
+        function register() {
+            xmlhttp.onreadystatechange = function() {
+                if(xmlhttp.readyState == 4) {
+                    if(xmlhttp.status == 200){
+                        token = xmlhttp.responseText;
+                        alert("Registo efetuado com sucesso.");
+                        localStorage.setItem('token', token);
+                        window.location.href = "loggedOptions.html";
+                    } else if(xmlhttp.status == 400) {
+                        alert("Todos os campos obrigatórios devem ser preenchidos.");
+                    } else if(xmlhttp.status == 409) {
+                        alert("Já existe um utilizador com o mesmo nome.");
+                    } else {
+                        alert("Não foi possível registar o utilizador.");
+                    }
+                }
+            }
+
+            let myObj = {
+                username:document.getElementById("username").value,
+                email:document.getElementById("email").value,
+                name:document.getElementById("name").value,
+                password:document.getElementById("password").value,
+                confirmation:document.getElementById("confPassword").value,
+                profile:document.getElementById("profile").value,
+                phone:document.getElementById("phone").value,
+                cellphone:document.getElementById("cellphone").value,
+                address:document.getElementById("address").value,
+                addressC:document.getElementById("addressC").value,
+                localidade:document.getElementById("localidade").value,
+                cp:document.getElementById("codP1").value + "-" + document.getElementById("codP2").value,
+                nif:document.getElementById("nif").value
+            };
+
+            let myJson = JSON.stringify(myObj);
+
+            xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/register/", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send(myJson);
+        }
+    </script>
+
+
+    <body>
+        <h3>Campos Obrigatórios:</h3>
+        <br/>
+
+        <label>Username:</label>
+        <input id="username" type="text" required>
+        <p></p>
+
+        <label>E-mail:</label>
+        <input id="email" type="email" required>
+        <p></p>
+
+        <label>Nome do Utilizador:</label>
+        <input id="name" type="text" required>
+        <p></p>
+
+        <label>Password:</label>
+        <input id="password" type="password" required>
+        <p></p>
+
+        <label>Confirmar password:</label>
+        <input id="confPassword" type="password" required>
+        <p></p>
+
+        <h3>Campos Opcionais:</h3>
+        <br/>
+
+        <label>Tipo de Perfil:</label>
+
+        <input type="hidden" id="profile" value="INDEFINIDO">
+
+        <input type="radio" id="public" name="profile" onchange="document.getElementById('profile').value = 'PUBLICO'">
+        <label for="public">Público</label>
+        <input type="radio" id="private" name="profile" onchange="document.getElementById('profile').value = 'PRIVADO'">
+        <label for="private">Privado</label>
+        <p></p>
+
+        <label>Telefone fixo:</label>
+        <input id="phone" type="number" maxlength="9">
+        <p></p>
+
+        <label>Telefone móvel:</label>
+        <input id="cellphone" type="number" maxlength="9">
+        <p></p>
+
+        <h5>Morada:</h5>
+
+        <label>Morada:</label>
+        <input id="address" type="text">
+
+        <label>Morada complementar:</label>
+        <input id="addressC" type="text">
+
+        <label>Localidade:</label>
+        <input id="localidade" type="text">
+
+        <label>Código Postal:</label>
+        <input id="codP1" type="text" maxlength="4"> - <input id="codP2" type="text" maxlength="3">
+        <p></p>
+
+        <label>NIF:</label>
+        <input id="nif" type="number">
+        <p></p>
+
+        <button onclick="register();"><b>Registar</b></button>
+
+    </body>
+</html>

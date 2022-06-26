@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+      <meta charset="UTF-8">
+      <title>Login</title>
+  </head>
+
+  <script>
+    xmlhttp = new XMLHttpRequest();
+    let token;
+
+    function login() {
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4) {
+          if (xmlhttp.status == 200) {
+            token = xmlhttp.responseText;
+            alert("Login feito com sucesso!");
+            sessionStorage.setItem('token', token);
+            window.location.href = "loggedOptions.html"
+          } else if(xmlhttp.status == 400) {
+              alert("Todos os campos obrigatórios devem ser preenchidos.");
+          } else {
+            alert("Username ou password errada.");
+          }
+        }
+      }
+      var myObj = {
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+      };
+      var myJson = JSON.stringify(myObj);
+
+
+      xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/login/", true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json");
+      xmlhttp.send(myJson);
+    }
+
+  </script>
+
+  <body>
+    <h3>Login:</h3>
+    <br/>
+
+    <label>Username:</label>
+    <input id="username" type="text" required>
+    <p></p>
+
+    <label>Password:</label>
+    <input id="password" type="password" required>
+    <p></p>
+
+    <button onclick="login();"><b>Login</b></button>
+
+  </body>
+</html>

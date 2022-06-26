@@ -1,6 +1,7 @@
 package firstwebapp.util;
 
 public class DeleteData {
+    public String user;
     public String usernameToDelete;
     public String role;
     public long validTo;
@@ -11,8 +12,11 @@ public class DeleteData {
 
     }
 
-    public DeleteData(String usernameToDelete, String role, String validTo, String verifier) {
-        this.username = username;
-        this.password = password;
+    public DeleteData(String user, String usernameToDelete, String role, long validTo, String verifier) {
+        this.user = user;
+        this.usernameToDelete = usernameToDelete;
+        this.role = role;
+        this.validTo = validTo;
+        this.verifier = verifier;
     }
 }

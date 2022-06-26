@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mudar Password</title>
+    </head>
+    <body>
+        <p></p>
+        <label>Password Antiga:</label>
+        <input id="oldPassword" type="text" required>
+        <p></p>
+
+        <label>Nova Password:</label>
+        <input id="newPassword" type="password" required>
+        <p></p>
+
+        <label>Confirmar nova password:</label>
+        <input id="confPassword" type="password" required>
+        <p></p>
+
+        <button onclick="modifyPassword();"><b>Confirmar Alteração</b></button>
+    </body>
+
+    <script>
+
+        xmlhttp = new XMLHttpRequest();
+
+        function modifyPassword(){
+            xmlhttp.onreadystatechange = function (){
+                if(xmlhttp.readyState == 4){
+                    console.log(xmlhttp.responseText)
+                    if (xmlhttp.status == 200) {
+                        alert("Password modificada com sucesso.");
+                    } else {
+                        alert(xmlhttp.responseText);
+                    }
+                }
+            }
+
+            let token = JSON.parse(sessionStorage.getItem('token'));
+            var myObj = {
+                username: token.username,
+                role: token.role,
+                validTo: token.validTo,
+                verifier: token.verifier,
+                oldPassword: document.getElementById("oldPassword"),
+                newPassword: document.getElementById("newPassword"),
+                confirmPassword: document.getElementById("confPassword"),
+            };
+            var myJson = JSON.stringify(myObj);
+
+            xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/changePassword", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send(myJson);
+        }
+
+    </script>
+</html>

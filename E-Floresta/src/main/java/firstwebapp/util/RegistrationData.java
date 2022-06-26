@@ -9,7 +9,7 @@ public class RegistrationData {
     public String confirmation;
     public String profile;
     public String phone;
-    public String cellPhone;
+    public String cellphone;
     public String address;
     public String addressC;
     public String localidade;
@@ -21,7 +21,7 @@ public class RegistrationData {
     }
 
     public RegistrationData(String username, String email, String name, String password, String confirmation, String profile,
-                            String phone, String cellPhone, String address, String addressC, String localidade,
+                            String phone, String cellphone, String address, String addressC, String localidade,
                             String cp, String nif) {
         this.username = username;
         this.password = password;
@@ -30,7 +30,7 @@ public class RegistrationData {
         this.name = name;
         this.profile = profile;
         this.phone = phone;
-        this.cellPhone = cellPhone;
+        this.cellphone = cellphone;
         this.address = address;
         this.addressC = addressC;
         this.localidade = localidade;
@@ -39,20 +39,25 @@ public class RegistrationData {
     }
 
     public boolean validRegistration() {
-        boolean checkNull = !(username.equals("") || password.equals("") || confirmation.equals("") || email.equals("") || name.equals(""));
-        boolean checkPassword = password.equals(confirmation) && password.length()>=6;
-        boolean checkEmail = true;
+        boolean valid = true;
 
-        String[] emailC = email.split("@");
-        if(emailC.length<2){
-            checkEmail = false;
+        if (username.equals("") || password.equals("") || confirmation.equals("") || email.equals("") || name.equals("")) {
+            valid = false;
         }
 
-        String[] dns = emailC[1].split("\\.");
-        if(dns.length<2){
-            checkEmail = false;
+        if (!password.equals(confirmation) || password.length()<6) {
+            valid = false;
         }
 
-        return checkNull && checkPassword && checkEmail;
+        if (!this.email.matches(".+@.+\\..+")) {
+            valid = false;
+        }
+
+        if (!this.cp.equals("-") && !this.cp.matches("[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9]")) {
+            valid = false;
+        }
+
+
+        return valid;
     }
 }
