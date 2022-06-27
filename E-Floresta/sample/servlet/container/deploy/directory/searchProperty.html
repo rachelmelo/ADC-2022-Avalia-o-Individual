@@ -1,59 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Listar Users</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Listar Users</title>
+    </head>
 
-<body>
-<h3>Lista de propriedades:</h3>
-<div id="list"></div>
-<br>
-<label>Up Right Lat</label>
-<input id="uprightlat" type="text" required>
-<label>Up Right Long</label>
-<input id="uprightlong" type="text" required>
-<label>Up Right Lat</label>
-<input id="uprightlat" type="text" required>
-<label>Up Right Lat</label>
-<input id="uprightlat" type="text" required>
-<br>
-<br>
-<button onclick="getData();"><b>Listar</b></button>
-<p></p>
+    <body>
+        <h3>Lista de propriedades:</h3>
+        <div id="list"></div>
+        <br>
+        <label>Up Right Lat</label>
+        <input id="uprightlat" type="text" required>
+        <label>Up Right Long</label>
+        <input id="uprightlong" type="text" required>
+        <label>Down Left Lat</label>
+        <input id="downleftlat" type="text" required>
+        <label>Down Left Long</label>
+        <input id="downleftlong" type="text" required>
+        <br>
+        <br>
+        <button onclick="getData();"><b>Listar</b></button>
+        <p></p>
 
-</body>
+    </body>
 
-<script>
-    xmlhttp = new XMLHttpRequest();
+    <script>
+        xmlhttp = new XMLHttpRequest();
 
-    function getData(){
-        xmlhttp.onreadystatechange = function (){
-            if(xmlhttp.readyState == 4){
-                console.log(xmlhttp.responseText)
-                const obj = JSON.parse(xmlhttp.responseText);
-                console.log(obj[0]);
-                document.getElementById("list").innerHTML = null;
-                for(let i = 0; i<obj.length; i++){
-                    document.getElementById("list").innerHTML += Object.values(obj[i]) + "<br />";
+        function getData(){
+            xmlhttp.onreadystatechange = function (){
+                if(xmlhttp.readyState == 4){
+                    console.log(xmlhttp.responseText)
+                    const obj = JSON.parse(xmlhttp.responseText);
+                    console.log(obj[0]);
+                    document.getElementById("list").innerHTML = null;
+                    for(let i = 0; i<obj.length; i++){
+                        document.getElementById("list").innerHTML += Object.values(obj[i]) + "<br />";
+                    }
+                    alert(xmlhttp.responseText);
                 }
-                alert(xmlhttp.responseText);
             }
+
+            let token = JSON.parse(sessionStorage.getItem('token'));
+            var myObj = {
+                username: token.username,
+                validTo: token.validTo,
+                verifier: token.verifier,
+                uprightLat: document.getElementById("uprightlat").value,
+                uprightLong: document.getElementById("uprightlat").value,
+                downleftLat: document.getElementById("downleftlat").value,
+                downleftLong: document.getElementById("downleftlong").value,
+            };
+            var myJson = JSON.stringify(myObj);
+
+
+            xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/searchProperty", true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send(myJson);
         }
-
-        let token = JSON.parse(sessionStorage.getItem('token'));
-        var myObj = {
-            username: token.username,
-            validTo: token.validTo,
-            verifier: token.verifier
-        };
-        var myJson = JSON.stringify(myObj);
-
-
-        xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/listUsers", true);
-        xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.send(myJson);
-    }
-</script>
+    </script>
 
 </html>

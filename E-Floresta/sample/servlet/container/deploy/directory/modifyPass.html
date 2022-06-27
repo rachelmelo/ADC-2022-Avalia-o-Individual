@@ -43,9 +43,9 @@
                 role: token.role,
                 validTo: token.validTo,
                 verifier: token.verifier,
-                oldPassword: document.getElementById("oldPassword"),
-                newPassword: document.getElementById("newPassword"),
-                confirmPassword: document.getElementById("confPassword"),
+                oldPassword: document.getElementById("oldPassword").value,
+                newPassword: document.getElementById("newPassword").value,
+                confirmPassword: document.getElementById("confPassword").value,
             };
             var myJson = JSON.stringify(myObj);
 

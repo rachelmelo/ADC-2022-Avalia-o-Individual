@@ -314,9 +314,7 @@ public class RegisterResource {
             if(!data.user.equals(data.userToModify)) {
                 return Response.status(Response.Status.FORBIDDEN).entity("You do not have permissions").build();
             }
-            if(!userToModify.getString("user_email").equals(data.email) ||
-                    !userToModify.getString("user_name").equals(data.name) ||
-                    !userToModify.getKey().toString().equals(data.userToModify)) {
+            if(!((data.name.equals(userToModify.getString("user_name")) || data.name.equals("")) && (data.email.equals(userToModify.getString("user_email")) || data.email.equals("")))) {
                 return Response.status(Response.Status.FORBIDDEN).entity("You cannot change these attributes.").build();
             }
 
@@ -346,12 +344,12 @@ public class RegisterResource {
                     .set("user_email", data.email.equals("") ? userToModify.getString("user_email") : data.email)
                     .set("user_profile", data.profile.equals("INDEFINIDO") ? userToModify.getString("user_profile") : data.profile)
                     .set("user_phone", data.phone.equals("") ? userToModify.getString("user_phone") : data.phone)
-                    .set("user_cellPhone", data.cellPhone.equals("") ? userToModify.getString("user_cellPhone") : data.cellPhone)
+                    .set("user_cellphone", data.cellPhone.equals("") ? userToModify.getString("user_cellphone") : data.cellPhone)
                     .set("user_address", data.address.equals("") ? userToModify.getString("user_address") : data.address)
                     .set("user_addressC", data.addressC.equals("") ? userToModify.getString("user_addressC") : data.addressC)
                     .set("user_cp", data.cp.equals("-") ? userToModify.getString("user_cp") : data.cp)
                     .set("user_nif", data.nif.equals("") ? userToModify.getString("user_nif") : data.nif)
-                    .set("user_creation_time", userToModify.getString("user_creation_time"))
+                    .set("user_creation_time", userToModify.getTimestamp("user_creation_time"))
                     .set("user_role", data.newRole.equals("INDEFINIDO") ? userToModify.getString("user_role") : data.newRole)
                     .set("user_state", data.state.equals("INDEFINIDO") ? userToModify.getString("user_state") : data.state)
                     .build();
@@ -413,7 +411,7 @@ public class RegisterResource {
                     .set("user_addressC", user.getString("user_addressC"))
                     .set("user_cp", user.getString("user_cp"))
                     .set("user_nif", user.getString("user_nif"))
-                    .set("user_creation_time", user.getString("user_creation_time"))
+                    .set("user_creation_time", user.getTimestamp("user_creation_time"))
                     .set("user_role", user.getString("user_role"))
                     .set("user_state", user.getString("user_state"))
                     .build();
@@ -498,7 +496,7 @@ public class RegisterResource {
                         .set("property_idNum", data.idNum)
                         .set("property_idExpiration", data.idExpiration)
                         .set("property_nif", data.nif)
-                        .set("property_parcelVerified", data.parcelVerified)
+                        .set("property_parcelVerified", data.role.equals("USER") ? "NAO VERIFICADO" : data.parcelVerified)
                         .set("property_uprightLat", data.uprightLat)
                         .set("property_uprightLong", data.uprightLong)
                         .set("property_downleftLat", data.downleftLat)
@@ -547,9 +545,10 @@ public class RegisterResource {
         Query<Entity> query = Query.newEntityQueryBuilder()
                 .setKind("Property")
                 .setFilter(StructuredQuery.PropertyFilter.lt("property_uprightLat", data.uprightLat))
-                .setFilter(StructuredQuery.PropertyFilter.gt("property_uprightLong", data.uprightLong))
+                .setFilter(StructuredQuery.PropertyFilter.lt("property_uprightLong", data.uprightLong))
                 .setFilter(StructuredQuery.PropertyFilter.gt("property_downleftLat", data.downleftLat))
-                .setFilter(StructuredQuery.PropertyFilter.lt("property_downleftLong", data.downleftLong))
+                .setFilter(StructuredQuery.PropertyFilter.gt("property_downleftLong", data.downleftLong))
+                .setFilter(StructuredQuery.PropertyFilter.eq("property_parcelVerified", "CONFIRMADO"))
                 .build();
 
         QueryResults<Entity> queryResults = datastore.run(query);

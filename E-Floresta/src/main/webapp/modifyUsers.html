@@ -88,7 +88,8 @@
 
     <script>
         let xmlhttp = new XMLHttpRequest();
-        let token;
+        let token = sessionStorage.getItem("token");
+        token = JSON.parse(token);
 
         function modifyUser() {
             xmlhttp.onreadystatechange = function() {
@@ -106,17 +107,16 @@
 
             let myObj = {
                 user: token.username,
+                userToModify:document.getElementById("username").value,
                 role: token.role,
                 validTo: token.validTo,
                 verifier: token.verifier,
-                username:document.getElementById("username").value,
                 email:document.getElementById("email").value,
                 name:document.getElementById("name").value,
                 password:document.getElementById("password").value,
-                confirmation:document.getElementById("confPassword").value,
                 profile:document.getElementById("profile").value,
                 phone:document.getElementById("phone").value,
-                cellphone:document.getElementById("cellphone").value,
+                cellPhone:document.getElementById("cellphone").value,
                 address:document.getElementById("address").value,
                 addressC:document.getElementById("addressC").value,
                 localidade:document.getElementById("localidade").value,
@@ -125,7 +125,7 @@
                 state:document.getElementById("state").value,
                 newRole:document.getElementById("role").value
             };
-
+            console.log(myObj);
             let myJson = JSON.stringify(myObj);
 
             xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/modifyUserAtributes/", true);

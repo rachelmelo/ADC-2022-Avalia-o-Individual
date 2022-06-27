@@ -27,7 +27,7 @@ public class PropertyData {
 
     public PropertyData(String username, String role, long validTo, String verifier, String propertyType, String ownerName,
                         String ownerNacionality, String idDocType, String idNum, String idExpiration, String nif,
-                        float uprightLat, float uprightLong, float downleftLat, float downleftLong) {
+                        float uprightLat, float uprightLong, float downleftLat, float downleftLong, String parcelVerified) {
         this.username = username;
         this.role = role;
         this.validTo = validTo;
@@ -39,18 +39,11 @@ public class PropertyData {
         this.idNum = idNum;
         this.idExpiration = idExpiration;
         this.nif = nif;
-
-        if(this.role.equals("USER")) {
-            this.parcelVerified = "NÃO VERIFICADO";
-        }
-        else{
-            this.parcelVerified = "CONFIRMADO";
-        }
-
         this.uprightLat = uprightLat;
         this.uprightLong = uprightLong;
         this.downleftLat = downleftLat;
         this.downleftLong = downleftLong;
+        this.parcelVerified = parcelVerified;
     }
 
 
