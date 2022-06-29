@@ -496,7 +496,7 @@ public class RegisterResource {
                         .set("property_idNum", data.idNum)
                         .set("property_idExpiration", data.idExpiration)
                         .set("property_nif", data.nif)
-                        .set("property_parcelVerified", data.role.equals("USER") ? "NAO VERIFICADO" : data.parcelVerified)
+                        .set("property_parcelVerified", data.role.equals("USER") ? "POR VERIFICAR" : data.parcelVerified)
                         .set("property_uprightLat", data.uprightLat)
                         .set("property_uprightLong", data.uprightLong)
                         .set("property_downleftLat", data.downleftLat)
@@ -561,4 +561,32 @@ public class RegisterResource {
         return Response.ok(g.toJson(propertiesList)).build();
     }
 
+    @POST
+    @Path("/showUserAttributes")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response showUserAttributes(SimpleToken data) {
+
+        Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+        Entity user = datastore.get(userKey);
+
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("User doesn't exist.").build();
+        }
+
+        if (!data.verifier.equals("secret")) {
+            return Response.status(Response.Status.FORBIDDEN).entity("Wrong verifier.").build();
+        }
+
+        if (data.validTo < System.currentTimeMillis()) {
+            return Response.status(Response.Status.FORBIDDEN).entity("Token expired.").build();
+        }
+
+        ShowData sd = new ShowData(user.getString("user_email"), user.getString("user_name"),
+                user.getString("user_profile"), user.getString("user_phone"), user.getString("user_cellphone"),
+                user.getString("user_address"), user.getString("user_addressC"), user.getString("user_localidade"),
+                user.getString("user_cp"), user.getString("user_nif"),  user.getString("user_state"));
+
+        return Response.ok(g.toJson(sd)).build();
+    }
 }

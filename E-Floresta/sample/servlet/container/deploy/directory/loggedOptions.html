@@ -5,11 +5,13 @@
         <title>Options</title>
     </head>
 
-    <body>
+    <body onload="showUserAttributes()">
         <label><h2>Página de Boas Vindas:</h2></label>
         <h3>Role: <span id="role"></span></h3>
         <input type="button" value="Logout" onclick="logout();">
         <p></p>
+
+        <div id="list"></div>
 
         <label>Remover Utilizador:</label>
         <input type="button" value="Remover" onclick="window.location.href = 'deleteUser.html'">
@@ -50,13 +52,45 @@
          let json = JSON.parse(token);
          document.getElementById("role").innerText = json.role;
 
+
          function logout() {
             sessionStorage.removeItem('token');
              window.location.href = 'logout.html';
          }
 
+
+         function showUserAttributes() {
+             xmlhttp = new XMLHttpRequest();
+
+             xmlhttp.onreadystatechange = function (){
+                 if(xmlhttp.readyState == 4){
+                     const obj = JSON.parse(xmlhttp.responseText);
+                     document.getElementById("list").innerHTML = null;
+                     for(let i = 0; i<obj.length; i++){
+                         document.getElementById("list").innerHTML += Object.values(obj[i]) + "<br />";
+                     }
+                     alert(xmlhttp.responseText);
+                 }
+             }
+
+             let token = JSON.parse(sessionStorage.getItem('token'));
+             var myObj = {
+                 username: token.username,
+                 validTo: token.validTo,
+                 verifier: token.verifier
+             };
+             var myJson = JSON.stringify(myObj);
+
+
+             xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/showUserAttributes", true);
+             xmlhttp.setRequestHeader("Content-Type", "application/json");
+             xmlhttp.send(myJson);
+         }
+
+
          function showToken() {
              alert(sessionStorage.getItem('token'));
          }
+
     </script>
 </html>

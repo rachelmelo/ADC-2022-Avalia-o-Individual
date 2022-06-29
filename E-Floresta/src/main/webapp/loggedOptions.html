@@ -3,13 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <title>Options</title>
+        <link rel="stylesheet" href="styles.css">
     </head>
 
-    <body>
+    <body onload="showUserAttributes()">
         <label><h2>Página de Boas Vindas:</h2></label>
         <h3>Role: <span id="role"></span></h3>
         <input type="button" value="Logout" onclick="logout();">
         <p></p>
+
+        <div id="list"></div>
+        <h4><span id="link"></span></h4>
 
         <label>Remover Utilizador:</label>
         <input type="button" value="Remover" onclick="window.location.href = 'deleteUser.html'">
@@ -48,15 +52,61 @@
          }
 
          let json = JSON.parse(token);
-         document.getElementById("role").innerText = json.role;
+         const element = document.createElement("div");
+         const textnode = document.createTextNode(json.role);
+
+         element.appendChild(textnode);
+         element.className = json.role;
+         document.getElementById("role").appendChild(element);
+
+         if(json.role == "SU") {
+             const element1 = document.createElement("div");
+             const element2 = document.createElement("a");
+             const textelem = document.createTextNode("Link");
+             element2.appendChild(textelem);
+             element2.href = "https://console.cloud.google.com/home/dashboard?project=central-diode-349523";
+             element1.appendChild(element2);
+             document.getElementById("link").appendChild(element1);
+         }
+
 
          function logout() {
             sessionStorage.removeItem('token');
              window.location.href = 'logout.html';
          }
 
+
+         function showUserAttributes() {
+             xmlhttp = new XMLHttpRequest();
+
+             xmlhttp.onreadystatechange = function (){
+                 if(xmlhttp.readyState == 4){
+                     const obj = JSON.parse(xmlhttp.responseText);
+                     document.getElementById("list").innerHTML = null;
+                     document.getElementById("list").innerHTML = Object.values(obj) + "<br />";
+                     console.log(obj);
+                     alert(xmlhttp.responseText);
+                 }
+             }
+
+             let token = JSON.parse(sessionStorage.getItem('token'));
+             var myObj = {
+                 username: token.username,
+                 validTo: token.validTo,
+                 verifier: token.verifier
+             };
+             var myJson = JSON.stringify(myObj);
+
+
+             xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/showUserAttributes", true);
+             xmlhttp.setRequestHeader("Content-Type", "application/json");
+             xmlhttp.send(myJson);
+         }
+
+
          function showToken() {
              alert(sessionStorage.getItem('token'));
          }
+
     </script>
 </html>

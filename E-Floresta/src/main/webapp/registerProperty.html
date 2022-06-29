@@ -44,8 +44,6 @@
                 parcelVerified:document.getElementById("verification").value
             };
 
-            console.log(myObj);
-
             let myJson = JSON.stringify(myObj);
 
             xmlhttp.open("POST", "https://central-diode-349523.ew.r.appspot.com/rest/ti/registerProperty/", true);
