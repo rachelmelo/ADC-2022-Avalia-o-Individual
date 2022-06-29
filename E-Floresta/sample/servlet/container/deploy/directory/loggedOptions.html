@@ -3,15 +3,20 @@
     <head>
         <meta charset="UTF-8">
         <title>Options</title>
+        <link rel="stylesheet" href="styles.css">
     </head>
 
     <body onload="showUserAttributes()">
         <label><h2>Página de Boas Vindas:</h2></label>
         <h3>Role: <span id="role"></span></h3>
-        <input type="button" value="Logout" onclick="logout();">
         <p></p>
 
         <div id="list"></div>
+        <h4><span id="link"></span></h4>
+        <p></p>
+
+        <input type="button" value="Logout" onclick="logout();">
+        <p></p>
 
         <label>Remover Utilizador:</label>
         <input type="button" value="Remover" onclick="window.location.href = 'deleteUser.html'">
@@ -50,7 +55,22 @@
          }
 
          let json = JSON.parse(token);
-         document.getElementById("role").innerText = json.role;
+         const element = document.createElement("div");
+         const textnode = document.createTextNode(json.role);
+
+         element.appendChild(textnode);
+         element.className = json.role;
+         document.getElementById("role").appendChild(element);
+
+         if(json.role == "SU") {
+             const element1 = document.createElement("div");
+             const element2 = document.createElement("a");
+             const textelem = document.createTextNode("Link");
+             element2.appendChild(textelem);
+             element2.href = "https://console.cloud.google.com/home/dashboard?project=central-diode-349523";
+             element1.appendChild(element2);
+             document.getElementById("link").appendChild(element1);
+         }
 
 
          function logout() {
@@ -64,12 +84,21 @@
 
              xmlhttp.onreadystatechange = function (){
                  if(xmlhttp.readyState == 4){
+                     console.log(xmlhttp.responseText, xmlhttp.status)
                      const obj = JSON.parse(xmlhttp.responseText);
-                     document.getElementById("list").innerHTML = null;
-                     for(let i = 0; i<obj.length; i++){
-                         document.getElementById("list").innerHTML += Object.values(obj[i]) + "<br />";
-                     }
-                     alert(xmlhttp.responseText);
+                     let list = document.getElementById("list");
+                     list.innerHTML = null;
+                     list.innerHTML += `<br/>Email: ${obj.email}<br/>`
+                     list.innerHTML += `Nome: ${obj.name}<br/>`
+                     list.innerHTML += `Perfil: ${obj.profile}<br/>`
+                     list.innerHTML += `Telefone: ${obj.phone}<br/>`
+                     list.innerHTML += `Telemóvel: ${obj.cellPhone}<br/>`
+                     list.innerHTML += `Morada: ${obj.address}<br/>`
+                     list.innerHTML += `Morada complementar: ${obj.addressC}<br/>`
+                     list.innerHTML += `Localidade: ${obj.localidade}<br/>`
+                     list.innerHTML += `CP: ${obj.cp}<br/>`
+                     list.innerHTML += `NIF: ${obj.nif}<br/>`
+                     list.innerHTML += `Estado: ${obj.state}<br/>`
                  }
              }
 

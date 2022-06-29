@@ -49,13 +49,13 @@ public class RegisterResource {
                         .set("user_pwd", DigestUtils.sha512Hex(data.password));
 
                 builder = data.profile != null ? builder.set("user_profile", data.profile) : builder.set("user_profile", "INDEFINIDO");
-                builder = data.phone != null ? builder.set("user_phone", data.phone) : builder.set("user_phone", "INDEFINIDO");
-                builder = data.cellphone != null ? builder.set("user_cellphone", data.cellphone) : builder.set("user_cellphone", "INDEFINIDO");
-                builder = data.address != null ? builder.set("user_address", data.address) : builder.set("user_address", "INDEFINIDO");
-                builder = data.addressC != null ? builder.set("user_addressC", data.addressC) : builder.set("user_addressC", "INDEFINIDO");
-                builder = data.localidade != null ? builder.set("user_localidade", data.localidade) : builder.set("user_localidade", "INDEFINIDO");
-                builder = data.cp != null ? builder.set("user_cp", data.cp) : builder.set("user_cp", "INDEFINIDO");
-                builder = data.nif != null ? builder.set("user_nif", data.nif) : builder.set("user_nif", "INDEFINIDO");
+                builder = !data.phone.equals("") ? builder.set("user_phone", data.phone) : builder.set("user_phone", "INDEFINIDO");
+                builder = !data.cellphone.equals("") ? builder.set("user_cellphone", data.cellphone) : builder.set("user_cellphone", "INDEFINIDO");
+                builder = !data.address.equals("") ? builder.set("user_address", data.address) : builder.set("user_address", "INDEFINIDO");
+                builder = !data.addressC.equals("") ? builder.set("user_addressC", data.addressC) : builder.set("user_addressC", "INDEFINIDO");
+                builder = !data.localidade.equals("") ? builder.set("user_localidade", data.localidade) : builder.set("user_localidade", "INDEFINIDO");
+                builder = !data.cp.equals("-") ? builder.set("user_cp", data.cp) : builder.set("user_cp", "INDEFINIDO");
+                builder = !data.nif.equals("") ? builder.set("user_nif", data.nif) : builder.set("user_nif", "INDEFINIDO");
 
                 user = builder.set("user_creation_time", Timestamp.now())
                         .set("user_role", "USER")
@@ -164,9 +164,11 @@ public class RegisterResource {
         if(data.role.equals("USER")) {
             query = Query.newEntityQueryBuilder()
                     .setKind("User")
-                    .setFilter(StructuredQuery.PropertyFilter.eq("user_role", "USER"))
-                    .setFilter(StructuredQuery.PropertyFilter.eq("user_profile", "PUBLICO"))
-                    .setFilter(StructuredQuery.PropertyFilter.eq("user_state", "ACTIVE"))
+                    .setFilter(StructuredQuery.CompositeFilter.and(
+                            StructuredQuery.PropertyFilter.eq("user_role", "USER"),
+                            StructuredQuery.PropertyFilter.eq("user_profile", "PUBLICO"),
+                            StructuredQuery.PropertyFilter.eq("user_state", "ACTIVE")
+                    ))
                     .build();
 
             QueryResults<Entity> queryResults = datastore.run(query);
@@ -180,9 +182,8 @@ public class RegisterResource {
                         listElement.getString("user_name")));
             }
             return Response.ok(usersList).build();
-        }
 
-        if(data.role.equals("GBO")) {
+        } else if(data.role.equals("GBO")) {
             query = Query.newEntityQueryBuilder()
                     .setKind("User")
                     .setFilter(StructuredQuery.PropertyFilter.eq("user_role", "USER"))
@@ -207,9 +208,8 @@ public class RegisterResource {
                         listElement.getString("user_state"),
                         listElement.getString("user_role")));
             }
-        }
 
-        if(data.role.equals("GBS")) {
+        } else if(data.role.equals("GS")) {
             Query<Entity> query2;
             query = Query.newEntityQueryBuilder()
                     .setKind("User")
@@ -242,7 +242,7 @@ public class RegisterResource {
             }
 
             while(queryResults2.hasNext()){
-                listElement = queryResults.next();
+                listElement = queryResults2.next();
                 userList.add(new UserInfo(listElement.getKey().getName(),
                         listElement.getString("user_email"),
                         listElement.getString("user_name"),
@@ -257,9 +257,8 @@ public class RegisterResource {
                         listElement.getString("user_state"),
                         listElement.getString("user_role")));
             }
-        }
 
-        else{
+        } else{
             query = Query.newEntityQueryBuilder()
                     .setKind("User")
                     .build();
@@ -339,6 +338,7 @@ public class RegisterResource {
 
         try{
             userToModify = Entity.newBuilder(userToModifyKey)
+                    .set("user_username", userToModify.getString("user_username"))
                     .set("user_name", data.name.equals("") ? userToModify.getString("user_name") : data.name)
                     .set("user_pwd", data.password.equals("") ? userToModify.getString("user_pwd") : DigestUtils.sha512Hex(data.password))
                     .set("user_email", data.email.equals("") ? userToModify.getString("user_email") : data.email)
@@ -347,11 +347,13 @@ public class RegisterResource {
                     .set("user_cellphone", data.cellPhone.equals("") ? userToModify.getString("user_cellphone") : data.cellPhone)
                     .set("user_address", data.address.equals("") ? userToModify.getString("user_address") : data.address)
                     .set("user_addressC", data.addressC.equals("") ? userToModify.getString("user_addressC") : data.addressC)
+                    .set("user_localidade", data.localidade.equals("") ? userToModify.getString("user_localidade") : data.localidade)
                     .set("user_cp", data.cp.equals("-") ? userToModify.getString("user_cp") : data.cp)
                     .set("user_nif", data.nif.equals("") ? userToModify.getString("user_nif") : data.nif)
                     .set("user_creation_time", userToModify.getTimestamp("user_creation_time"))
                     .set("user_role", data.newRole.equals("INDEFINIDO") ? userToModify.getString("user_role") : data.newRole)
                     .set("user_state", data.state.equals("INDEFINIDO") ? userToModify.getString("user_state") : data.state)
+
                     .build();
 
             txn.put(userToModify);
@@ -439,15 +441,15 @@ public class RegisterResource {
         Entity user = datastore.get(userKey);
 
         if (user == null) {
-            return Response.status(Response.Status.NOT_FOUND).entity("User doesn't exist.").build();
+            return Response.status(Response.Status.NOT_FOUND).entity("Utilizador não existe.").build();
         }
 
         if (!user.getString("user_state").equals("ACTIVE")) {
-            return Response.status(Response.Status.FORBIDDEN).entity("Account not active.").build();
+            return Response.status(Response.Status.FORBIDDEN).entity("Conta inativa.").build();
         }
 
         if (!user.getString("user_pwd").equals(DigestUtils.sha512Hex(data.password))) {
-            return Response.status(Response.Status.FORBIDDEN).entity("Wrong user or password.").build();
+            return Response.status(Response.Status.FORBIDDEN).entity("Utilizador ou password errada.").build();
         }
 
         Token token = new Token(data.username, user.getString("user_role"));

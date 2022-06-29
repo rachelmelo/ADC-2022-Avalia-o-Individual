@@ -19,8 +19,10 @@
             window.location.href = "loggedOptions.html"
           } else if(xmlhttp.status == 400) {
               alert("Todos os campos obrigatórios devem ser preenchidos.");
+          } else if(xmlhttp.status == 403) {
+              alert(xmlhttp.responseText);
           } else {
-            alert("Username ou password errada.");
+            alert("Não foi possível fazer login.");
           }
         }
       }

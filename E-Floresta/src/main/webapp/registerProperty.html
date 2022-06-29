@@ -13,9 +13,7 @@
             xmlhttp.onreadystatechange = function() {
                 if(xmlhttp.readyState == 4) {
                     if(xmlhttp.status == 200){
-                        token = xmlhttp.responseText;
                         alert("Registo efetuado com sucesso.");
-                        localStorage.setItem('token', token);
                         window.location.href = "loggedOptions.html";
                     } else {
                         alert(xmlhttp.responseText);
@@ -99,9 +97,9 @@
         <label>Verificação de propriedade:</label>
         <input type="hidden" id="verification" value="INDEFINIDO" required>
 
-        <input type="radio" id="verified" name="verification" onchange="document.getElementById('verification').value = 'VERIFIED'">
+        <input type="radio" id="verified" name="verification" onchange="document.getElementById('verification').value = 'CONFIRMADO'">
         <label for="verified">Verificado</label>
-        <input type="radio" id="not verified" name="verification" onchange="document.getElementById('verification').value = 'NOT VERIFIED'">
+        <input type="radio" id="not verified" name="verification" onchange="document.getElementById('verification').value = 'POR VERIFICAR'">
         <label for="not verified">Não verificado</label>
         <p></p>
 

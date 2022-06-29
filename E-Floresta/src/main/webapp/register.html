@@ -14,9 +14,7 @@
             xmlhttp.onreadystatechange = function() {
                 if(xmlhttp.readyState == 4) {
                     if(xmlhttp.status == 200){
-                        token = xmlhttp.responseText;
                         alert("Registo efetuado com sucesso.");
-                        localStorage.setItem('token', token);
                         window.location.href = "loggedOptions.html";
                     } else if(xmlhttp.status == 400) {
                         alert("Todos os campos obrigatórios devem ser preenchidos.");

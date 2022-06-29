@@ -95,9 +95,7 @@
             xmlhttp.onreadystatechange = function() {
                 if(xmlhttp.readyState == 4) {
                     if(xmlhttp.status == 200){
-                        token = xmlhttp.responseText;
                         alert("Alterado com sucesso.");
-                        sessionStorage.setItem('token', token);
                         window.location.href = "loggedOptions.html";
                     } else {
                         alert(xmlhttp.responseText);
